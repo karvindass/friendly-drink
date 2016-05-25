@@ -7,6 +7,14 @@ def reveal(text):
     print "FD: " + text
     time.sleep(1)
 
+# Removes excessive spaces, returns cleaned
+def clean(string):
+    sList = string.split()
+    nString = ""
+    for word in sList:
+        nString += (word + " ")
+    return nString[0:-1]
+
 # Initial lines when started
 def intro():
     reveal("Hey there, my name is Friendly-Drink, but I go by FD.")
