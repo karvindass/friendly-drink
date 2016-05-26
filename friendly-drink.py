@@ -48,7 +48,14 @@ def getTime(locale):
     for row in zone:
         # print row[2].lower()
         if searchParam in row[2].lower():
-            zone_id = row[0]
+            zone_id = row[0] # zone_id used for lookup in timezone.csv
+
+    for row in timezone:
+        # print row[4]
+        if (zone_id == row[0]): # still need to account for DST
+            # gets time difference and converts to num
+            GMTOffset = int(row[3]) # Offset from GMT
+            break
 def start():
     sTime = time.time() # time from program start
     intro()
