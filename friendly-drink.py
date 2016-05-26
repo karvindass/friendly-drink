@@ -48,6 +48,10 @@ def getTime(locale):
         if searchParam in row[2].lower():
             zone_id = row[0] # zone_id used for lookup in timezone.csv
 
+    if 'zone_id' not in locals():
+        print "I can't find that place"
+        return
+
     for row in timezone:
         # print row[4]
         if (zone_id == row[0]): # still need to account for DST
