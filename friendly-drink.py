@@ -35,7 +35,7 @@ def getTime(locale):
 
     reveal("Let me look up the time in %s" % locale.title())
     f0 = open('../friendly-drink/Datasets/timezonedb/country.csv')
-    countryCode = csv.reader(f0)
+    countryTable = csv.reader(f0)
 
     f1 = open('../friendly-drink/Datasets/timezonedb/zone.csv')
     zone = csv.reader(f1)
@@ -47,10 +47,15 @@ def getTime(locale):
         # print row[2].lower()
         if searchParam in row[2].lower():
             zone_id = row[0] # zone_id used for lookup in timezone.csv
+            countryCode = row[1] # countryCode
 
     if 'zone_id' not in locals():
         print "I can't find that place"
         return
+
+    for row in countryTable:
+        if row[0] == countryCode:
+            countryName = row[1] # Full name of country is saved
 
     for row in timezone:
         # print row[4]
@@ -60,7 +65,7 @@ def getTime(locale):
             break
 
     checkTime = time.time() + GMTOffset
-    print "The time in %s is:" % searchParam.title()
+    print "The time in %s, %s is:" % (searchParam.title(), countryName)
     print time.strftime("%H:%M:%S, %a, %d %b %Y ", time.gmtime(checkTime))
 
 def start():
