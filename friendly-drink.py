@@ -5,8 +5,8 @@ inputName = "" # Stores the name given to the program
 
 # Used to reveal text with the time delay
 def reveal(text):
-    print "FD: " + text
     time.sleep(1)
+    print "FD: " + text
 
 # Removes excessive spaces, returns cleaned
 def clean(string):
@@ -25,7 +25,7 @@ def intro():
 # Gets name of user
 def getName():
     reveal("What's your name?")
-    inputName = raw_input('You: ')
+    inputName = raw_input('> ')
     reveal("Hey there %s, it's nice to meet you" %inputName)
 
 # function to get time of a location from Dataset
@@ -34,13 +34,13 @@ def getTime(locale):
     searchParam = locale.lower()
 
     reveal("Let me look up the time in %s" % locale.title())
-    f0 = open('../friendly-drink/Datasets/timezonedb/country.csv') # Will turn to relative path in future...
+    f0 = open('../friendly-drink/Datasets/timezonedb/country.csv')
     countryCode = csv.reader(f0)
 
-    f1 = open('../friendly-drink/Datasets/timezonedb/zone.csv') # Will turn to relative path in future...
+    f1 = open('../friendly-drink/Datasets/timezonedb/zone.csv')
     zone = csv.reader(f1)
 
-    f2 = open('../friendly-drink/Datasets/timezonedb/timezone.csv') # Will turn to relative path in future...
+    f2 = open('../friendly-drink/Datasets/timezonedb/timezone.csv')
     timezone = csv.reader(f2)
 
     for row in zone:
