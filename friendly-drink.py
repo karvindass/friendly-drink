@@ -71,9 +71,11 @@ def getTime(locale):
 def start():
     sTime = time.time() # time from program start
     intro()
-    # while True:
-    qString = raw_input('> ') # Query string
-    if qString.startswith("Time in"):
-        getTime(qString[7:])
+    while True:
+        qString = raw_input('> ') # Query string
+        if qString.startswith("Time in"):
+            getTime(qString[7:])
+        elif qString == "end":
+            break
 
 start()
