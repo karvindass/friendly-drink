@@ -1,4 +1,5 @@
 import time # Used for time delay function
+import csv # Used for csv handling
 
 inputName = "" # Stores the name given to the program
 
