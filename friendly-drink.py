@@ -33,8 +33,6 @@ def getTime(locale):
     locale = clean(locale)
     searchParam = locale.lower()
 
-    zone_id = "" # Zone ID
-
     reveal("Let me look up the time in %s" % locale.title())
     f0 = open('/Users/karvindassanayake/Documents/Github/friendly-drink/Datasets/timezonedb/country.csv') # Will turn to relative path in future...
     countryCode = csv.reader(f0)
@@ -56,6 +54,11 @@ def getTime(locale):
             # gets time difference and converts to num
             GMTOffset = int(row[3]) # Offset from GMT
             break
+
+    checkTime = time.time() + GMTOffset
+    print "The time in %s is:" % searchParam.title()
+    print time.strftime("%H:%M:%S, %a, %d %b %Y ", time.gmtime(checkTime))
+
 def start():
     sTime = time.time() # time from program start
     intro()
