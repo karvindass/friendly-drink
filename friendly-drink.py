@@ -14,7 +14,7 @@ def clean(string):
     nString = ""
     for word in sList:
         nString += (word + " ")
-    return nString[0:-1]
+    return nString[0:-1] # skips last space
 
 # Initial lines when started
 def intro():
@@ -28,7 +28,7 @@ def getName():
     inputName = raw_input('> ')
     reveal("Hey there %s, it's nice to meet you" %inputName)
 
-# function to get time of a location from Dataset
+# function to print time of a location from user input using Dataset
 def getTime(locale):
     locale = clean(locale)
     searchParam = locale.lower()
@@ -44,7 +44,6 @@ def getTime(locale):
     timezone = csv.reader(f2)
 
     for row in zone:
-        # print row[2].lower()
         if searchParam in row[2].lower():
             zone_id = row[0] # zone_id used for lookup in timezone.csv
             countryCode = row[1] # countryCode
@@ -58,13 +57,12 @@ def getTime(locale):
             countryName = row[1] # Full name of country is saved
 
     for row in timezone:
-        # print row[4]
         if (zone_id == row[0]): # still need to account for DST
             # gets time difference and converts to num
             GMTOffset = int(row[3]) # Offset from GMT
             break
 
-    checkTime = time.time() + GMTOffset
+    checkTime = time.time() + GMTOffset # gets time in desired locale
     print "The time in %s, %s is:" % (searchParam.title(), countryName)
     print time.strftime("%H:%M:%S, %a, %d %b %Y ", time.gmtime(checkTime))
 
