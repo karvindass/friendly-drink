@@ -28,6 +28,27 @@ def getName():
     inputName = raw_input('You: ')
     reveal("Hey there %s, it's nice to meet you" %inputName)
 
+# function to get time of a location from Dataset
+def getTime(locale):
+    locale = clean(locale)
+    searchParam = locale.lower()
+
+    zone_id = "" # Zone ID
+
+    reveal("Let me look up the time in %s" % locale.title())
+    f0 = open('/Users/karvindassanayake/Documents/Github/friendly-drink/Datasets/timezonedb/country.csv') # Will turn to relative path in future...
+    countryCode = csv.reader(f0)
+
+    f1 = open('/Users/karvindassanayake/Documents/Github/friendly-drink/Datasets/timezonedb/zone.csv') # Will turn to relative path in future...
+    zone = csv.reader(f1)
+
+    f2 = open('/Users/karvindassanayake/Documents/Github/friendly-drink/Datasets/timezonedb/timezone.csv') # Will turn to relative path in future...
+    timezone = csv.reader(f2)
+
+    for row in zone:
+        # print row[2].lower()
+        if searchParam in row[2].lower():
+            zone_id = row[0]
 def start():
     sTime = time.time() # time from program start
     intro()
