@@ -1,7 +1,9 @@
 import time # Used for time delay function
 import csv # Used for csv handling
 
-inputName = "" # Stores the name given to the program
+# Dictionary containing information about user
+userData = {}
+# userName - stores the name given to the program
 
 # Used to reveal text with the time delay
 def reveal(text):
@@ -25,8 +27,8 @@ def intro():
 # Gets name of user
 def getName():
     reveal("What's your name?")
-    inputName = raw_input('> ')
-    reveal("Hey there %s, it's nice to meet you" %inputName)
+    userData['userName'] = raw_input('> ') # input stored in user data dictionary
+    reveal("Hey there %s, it's nice to meet you" % userData['userName'])
 
 # function to print time of a location from user input using Dataset
 def getTime(locale):
