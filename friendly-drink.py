@@ -1,6 +1,7 @@
 import time # Used for time delay function
 import csv # Used for csv handling
 import nltk # Used for natural language recognition
+from nltk.stem import WordNetLemmatizer # Used to lemmatize (find root word)
 
 # Dictionary containing information about user
 userData = {}
@@ -71,9 +72,12 @@ def getTime(locale):
 
 # tokenizes string to determine if user is asking to flip a coin
 def searchQ(sentence):
-    tokens = nltk.word_tokenize(sentence)
-    tags = nltk.pos_tag(tokens)
-
+    tokens = nltk.word_tokenize(sentence) # Array of sentence
+    usedWords = [] # Contains all the words used to make decisions on what response to make
+    tags = nltk.pos_tag(tokens) # Array containing all words and POS tag
+    for word in tags:
+        if word[1] == 'NN': # Checks if word is a noun
+            if WordNetLemmatizer().lemmatize(word[0]) == 'coin':
 def start():
     sTime = time.time() # time from program start
     intro()
