@@ -2,6 +2,7 @@ import time # Used for time delay function
 import csv # Used for csv handling
 import nltk # Used for natural language recognition
 from nltk.stem import WordNetLemmatizer # Used to lemmatize (find root word)
+from nltk.corpus import wordnet # Wordnet for finding synonyms
 
 # Dictionary containing information about user
 userData = {}
@@ -69,6 +70,19 @@ def getTime(locale):
     checkTime = time.time() + GMTOffset # gets time in desired locale
     print "The time in %s, %s is:" % (searchParam.title(), countryName)
     print time.strftime("%H:%M:%S, %a, %d %b %Y ", time.gmtime(checkTime))
+
+# Finds synonyms of word - returns array of synonyms
+def findSynonyms(entryWord):
+    synonyms = []
+    for syn in wordnet.synsets(entryWord):
+        for l in syn.lemmas():
+            synonyms.append(l.name())
+
+    return synonyms
+
+# Flips coin, prints string showing answer
+def flipCoin():
+    print "*Coin Flip*"
 
 # tokenizes string to determine if user is asking to flip a coin
 def searchQ(sentence):
