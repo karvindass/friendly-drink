@@ -77,8 +77,19 @@ def findSynonyms(entryWord):
     for syn in wordnet.synsets(entryWord):
         for l in syn.lemmas():
             synonyms.append(l.name())
-
     return synonyms
+
+# Checks if asking to flip a coin
+def checkToFlipCoin(POS_tagged_sentence):
+    for word in POS_tagged_sentence:
+        if word[1] == 'NN': # Checks if word is a noun
+            if WordNetLemmatizer().lemmatize(word[0]) == 'coin':
+                for words in POS_tagged_sentence:
+                    if words[1] == 'VB' or words[1] == 'NN' or words[1] == 'NN':
+                        flipSynonyms = findSynonyms("flip")
+                        for syns in flipSynonyms:
+                            if syns == words[0]:
+                                return True
 
 # Flips coin, prints string showing answer
 def flipCoin():
@@ -90,32 +101,12 @@ def searchQ(sentence):
     usedWords = [] # Contains all the words used to make decisions on what response to make
     tags = nltk.pos_tag(tokens) # Array containing all words and POS tag
 
-    # for l in syn.lemmas():
-    #     print ("l: ",l)
-    #     synonyms.append(l.name())
-    #     if l.antonyms():
-    #         antonyms.append(l.antonyms()[0].name())
+    flipCheck = checkToFlipCoin(tags)
+    if flipCheck:
+        flipCoin()
 
-    for word in tags:
-        if word[1] == 'NN': # Checks if word is a noun
-            if WordNetLemmatizer().lemmatize(word[0]) == 'coin':
-                print word[0]
-                for words in tags:
-                    print words
-                    if words[1] == 'VB' or words[1] == 'NN' or words[1] == 'NN':
-                        flipSynonyms = findSynonyms("flip")
-                        for syns in flipSynonyms:
-                            if syns == words[0]:
-                                flipCoin()
-                                break
-                        # for syn in wordnet.synsets("flip"):
-                        #     if words[1] == syn:
-                        #         print "Potato"
-                            # for l in syn.lemmas():
-                            #     print ("l: ",l)
-                            #     synonyms.append(l.name())
-                            #     if l.antonyms():
-                            #         antonyms.append(l.antonyms()[0].name())
+
+
 def start():
     sTime = time.time() # time from program start
     intro()
