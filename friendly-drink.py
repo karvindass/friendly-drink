@@ -54,7 +54,7 @@ def getTime(locale):
             countryCode = row[1] # countryCode
 
     if 'zone_id' not in locals():
-        print "I can't find that place"
+        reveal("I can't find that place")
         return
 
     for row in countryTable:
@@ -68,8 +68,8 @@ def getTime(locale):
             break
 
     checkTime = time.time() + GMTOffset # gets time in desired locale
-    print "The time in %s, %s is:" % (searchParam.title(), countryName)
-    print time.strftime("%H:%M:%S, %a, %d %b %Y ", time.gmtime(checkTime))
+    reveal("The time in %s, %s is:" % (searchParam.title(), countryName))
+    reveal(time.strftime("%H:%M:%S, %a, %d %b %Y ", time.gmtime(checkTime)))
 
 # Finds synonyms of word - returns array of synonyms
 def findSynonyms(entryWord):
