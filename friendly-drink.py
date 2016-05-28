@@ -12,6 +12,15 @@ def reveal(text):
     time.sleep(1)
     print "FD: " + text
 
+# Used to reveal text without the time delay
+def revealInstant(text):
+    time.sleep(1)
+    print "FD: " + text
+
+# Used to reveal text without Time Delay and "FD: "
+def revealFree(text):
+    print text
+
 # Removes excessive spaces, returns cleaned
 def clean(string):
     sList = string.split()
