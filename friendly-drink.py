@@ -89,9 +89,33 @@ def searchQ(sentence):
     tokens = nltk.word_tokenize(sentence) # Array of sentence
     usedWords = [] # Contains all the words used to make decisions on what response to make
     tags = nltk.pos_tag(tokens) # Array containing all words and POS tag
+
+    # for l in syn.lemmas():
+    #     print ("l: ",l)
+    #     synonyms.append(l.name())
+    #     if l.antonyms():
+    #         antonyms.append(l.antonyms()[0].name())
+
     for word in tags:
         if word[1] == 'NN': # Checks if word is a noun
             if WordNetLemmatizer().lemmatize(word[0]) == 'coin':
+                print word[0]
+                for words in tags:
+                    print words
+                    if words[1] == 'VB' or words[1] == 'NN' or words[1] == 'NN':
+                        flipSynonyms = findSynonyms("flip")
+                        for syns in flipSynonyms:
+                            if syns == words[0]:
+                                flipCoin()
+                                break
+                        # for syn in wordnet.synsets("flip"):
+                        #     if words[1] == syn:
+                        #         print "Potato"
+                            # for l in syn.lemmas():
+                            #     print ("l: ",l)
+                            #     synonyms.append(l.name())
+                            #     if l.antonyms():
+                            #         antonyms.append(l.antonyms()[0].name())
 def start():
     sTime = time.time() # time from program start
     intro()
