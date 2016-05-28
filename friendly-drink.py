@@ -1,5 +1,6 @@
 import time # Used for time delay function
 import csv # Used for csv handling
+import nltk # Used for natural language recognition
 
 # Dictionary containing information about user
 userData = {}
@@ -68,6 +69,11 @@ def getTime(locale):
     print "The time in %s, %s is:" % (searchParam.title(), countryName)
     print time.strftime("%H:%M:%S, %a, %d %b %Y ", time.gmtime(checkTime))
 
+# tokenizes string to determine if user is asking to flip a coin
+def searchQ(sentence):
+    tokens = nltk.word_tokenize(sentence)
+    tags = nltk.pos_tag(tokens)
+
 def start():
     sTime = time.time() # time from program start
     intro()
@@ -77,5 +83,7 @@ def start():
             getTime(qString[7:])
         elif qString == "end":
             break
+        else:
+            searchQ(qString)
 
 start()
