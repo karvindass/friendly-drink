@@ -81,12 +81,14 @@ def findSynonyms(entryWord):
 
 # Checks if asking to flip a coin
 def checkToFlipCoin(POS_tagged_sentence):
+    # finds synoynms of the words 'flip' and 'toss'
+    flipSynonyms = findSynonyms("flip") + findSynonyms("toss")
+
     for word in POS_tagged_sentence:
         if word[1] == 'NN': # Checks if word is a noun
             if WordNetLemmatizer().lemmatize(word[0]) == 'coin':
                 for words in POS_tagged_sentence:
                     if words[1] == 'VB' or words[1] == 'NN' or words[1] == 'NN':
-                        flipSynonyms = findSynonyms("flip")
                         for syns in flipSynonyms:
                             if syns == words[0]:
                                 return True
