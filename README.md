@@ -16,3 +16,7 @@ We all want a friendly drink
     3. Do NLTK on page to get information from Wikipedia page
         * E.g. DOB, gender
         * "What is the DOB of Kanye West?""
+
+# Accepted Commands:
+`Time in` + "Name of Major City"
+* Looks up time in city
