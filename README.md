@@ -16,3 +16,10 @@ We all want a friendly drink
     3. Do NLTK on page to get information from Wikipedia page
         * E.g. DOB, gender
         * "What is the DOB of Kanye West?""
+
+# Accepted Commands:
+`Time in` + "Name of Major City"
+* Looks up time in city
+
+# References
+[Parts of Speech (POS) Tags](https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html) - Used for NLTK
