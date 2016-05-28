@@ -6,7 +6,6 @@ from nltk.corpus import wordnet # Wordnet for finding synonyms
 
 # Dictionary containing information about user
 userData = {}
-# userName - stores the name given to the program
 
 # Used to reveal text with the time delay
 def reveal(text):
@@ -39,6 +38,8 @@ def getTime(locale):
     searchParam = locale.lower()
 
     reveal("Let me look up the time in %s" % locale.title())
+
+    # Opens files used for determining time zone information
     f0 = open('../friendly-drink/Datasets/timezonedb/country.csv')
     countryTable = csv.reader(f0)
 
@@ -48,19 +49,23 @@ def getTime(locale):
     f2 = open('../friendly-drink/Datasets/timezonedb/timezone.csv')
     timezone = csv.reader(f2)
 
+    # Finds city in list of time zones
     for row in zone:
         if searchParam in row[2].lower():
             zone_id = row[0] # zone_id used for lookup in timezone.csv
             countryCode = row[1] # countryCode
 
+    # Throws error if city not found
     if 'zone_id' not in locals():
         reveal("I can't find that place")
         return
 
+    # Finds country using previous country code
     for row in countryTable:
         if row[0] == countryCode:
             countryName = row[1] # Full name of country is saved
 
+    # Determines GMT Offset
     for row in timezone:
         if (zone_id == row[0]): # still need to account for DST
             # gets time difference and converts to num
@@ -68,14 +73,19 @@ def getTime(locale):
             break
 
     checkTime = time.time() + GMTOffset # gets time in desired locale
+
+    # Print results
     reveal("The time in %s, %s is:" % (searchParam.title(), countryName))
     reveal(time.strftime("%H:%M:%S, %a, %d %b %Y ", time.gmtime(checkTime)))
 
 # Finds synonyms of word - returns array of synonyms
 def findSynonyms(entryWord):
+    # Array which will contain synonyms
     synonyms = []
     for syn in wordnet.synsets(entryWord):
+        # Iterates through synonyms
         for l in syn.lemmas():
+            # Iterates through possible lemmas, appends to synonyms array
             synonyms.append(l.name())
     return synonyms
 
@@ -87,15 +97,20 @@ def checkToFlipCoin(POS_tagged_sentence):
     for word in POS_tagged_sentence:
         if word[1] == 'NN': # Checks if word is a noun
             if WordNetLemmatizer().lemmatize(word[0]) == 'coin':
+                # Proceed if 'coin' is in setence
                 for words in POS_tagged_sentence:
                     if words[1] == 'VB' or words[1] == 'NN' or words[1] == 'IN':
+                        # Proceed if a word is base verb, preposition or singular noun
                         for syns in flipSynonyms:
+                            # Iterates through synonyms from before
                             if syns == words[0]:
+                                # If word is a synonym, return True
                                 return True
 
 # Flips coin, prints string showing answer
 def flipCoin():
     print "*Coin Flip*"
+
 
 # tokenizes string to determine if user is asking to flip a coin
 def searchQ(sentence):
@@ -107,8 +122,6 @@ def searchQ(sentence):
     if flipCheck:
         usedWords.extend(['flip','coin'])
         flipCoin()
-
-
 
 def start():
     sTime = time.time() # time from program start
