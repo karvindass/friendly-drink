@@ -105,6 +105,7 @@ def searchQ(sentence):
 
     flipCheck = checkToFlipCoin(tags)
     if flipCheck:
+        usedWords.extend(['flip','coin'])
         flipCoin()
 
 
