@@ -4,6 +4,10 @@ import nltk # Used for natural language recognition
 from nltk.stem import WordNetLemmatizer # Used to lemmatize (find root word)
 from nltk.corpus import wordnet # Wordnet for finding synonyms
 
+from random import randint # Used to generate random integer
+
+import ASCII_Store
+
 # Dictionary containing information about user
 userData = {}
 
@@ -118,7 +122,17 @@ def checkToFlipCoin(POS_tagged_sentence):
 
 # Flips coin, prints string showing answer
 def flipCoin():
-    print "*Coin Flip*"
+    reveal("*Flipping a coin*")
+    checkVal = randint(0,1)
+
+    if checkVal == 1:
+        # Heads case
+        revealFree(ASCII_Store.artFiles['heads']) # Print ASCII
+        revealFree("Heads!")
+    else:
+        # Tails case
+        revealFree(ASCII_Store.artFiles['diamond']) # Print ASCII
+        revealFree("Tails!")
 
 
 # tokenizes string to determine if user is asking to flip a coin
