@@ -42,7 +42,7 @@ def intro():
 # Gets name of user
 def getName():
     reveal("What's your name?")
-    userData['userName'] = raw_input('> ') # input stored in user data dictionary
+    userData['userName'] = raw_input('> ').title() # input stored in user data dictionary
     reveal("Hey there %s, it's nice to meet you" % userData['userName'])
 
 # function to print time of a location from user input using Dataset
@@ -137,6 +137,7 @@ def flipCoin():
 
 # tokenizes string to determine if user is asking to flip a coin
 def searchQ(sentence):
+    sentence = sentence.lower()
     tokens = nltk.word_tokenize(sentence) # Array of sentence
     usedWords = [] # Contains all the words used to make decisions on what response to make
     tags = nltk.pos_tag(tokens) # Array containing all words and POS tag
