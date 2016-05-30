@@ -7,6 +7,7 @@ from nltk.corpus import wordnet # Wordnet for finding synonyms
 from random import randint # Used to generate random integer
 
 import ASCII_Store
+import databanksearch as dbsearch # file containing db query searches
 
 # Dictionary containing information about user
 userData = {}
@@ -156,6 +157,8 @@ def start():
             getTime(qString[7:])
         elif qString == "end":
             break
+        elif qString == "birth":
+            dbsearch.birthdayOf("Party")
         else:
             searchQ(qString)
 
