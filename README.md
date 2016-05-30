@@ -5,11 +5,13 @@ We all want a friendly drink
 - Make sure to run using Python 2
 - Make sure to install NLTK packages
     - Not needed yet, but will at some point soon
+- Install RDFLib
+    - `pip install rdflib` (use `sudo` if needed)
 
 # Python File Goals:
 * To achieve:
-    1. Do NLTK to answer a simple question
-        * "Toss/flip/throw a coin"
+    1. Toss a coin
+        * "heads or tails" as possible input
     2. NLTK to get information about learning a concept
         * Find appropriate YouTube video/Wikipedia page
         * "I want to learn about integration"
