@@ -6,6 +6,19 @@ from nltk.stem import WordNetLemmatizer # Used to lemmatize (find root word)
 
     for s,p,o in g:
         print s,p,o
+
+# Find label function
+# Determine's label name based on resource given
+def getLabel(rdfFile):
+    g = Graph() # Creates graph object
+    g.parse(rdfFile) # Parses through rdfFile
+
+    generator = g.objects(predicate = RDFS.label) # Creates object of all labels given in all languages
+
+    for stmt in generator: # loops through all labels in all languages
+        if stmt.language == "en":
+            return stmt # Returns the English name for the resource
+
 # Gen Resource string
 # Should find the link to the object of the interested thing
 # e.g. Kanye
