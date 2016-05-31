@@ -109,9 +109,11 @@ def checkToFlipCoin(POS_tagged_sentence):
     flipSynonyms = findSynonyms("flip") + findSynonyms("toss")
 
     for word in POS_tagged_sentence:
-        if word[1] == 'NN': # Checks if word is a noun
+        # print WordNetLemmatizer().lemmatize(word[0])
+        # print word[1]
+        if word[1] == 'NN' or word[1] == 'NNS': # Checks if word is a noun(or pl.)
             if WordNetLemmatizer().lemmatize(word[0]) == 'coin':
-                # Proceed if 'coin' is in setence
+                # Proceed if 'coin' is in sentence
                 for words in POS_tagged_sentence:
                     if words[1] == 'VB' or words[1] == 'NN' or words[1] == 'IN':
                         # Proceed if a word is base verb, preposition or singular noun
@@ -120,6 +122,14 @@ def checkToFlipCoin(POS_tagged_sentence):
                             if syns == words[0]:
                                 # If word is a synonym, return True
                                 return True
+            elif WordNetLemmatizer().lemmatize(word[0]) == 'head':
+                # Proceed if 'head' is in sentence
+                for word in POS_tagged_sentence:
+                    # iterates through other nouns in sentence
+                    if word[1] == 'NN' or word[1] == 'NNS':
+                        if WordNetLemmatizer().lemmatize(word[0]) == 'tail':
+                            # Proceeds if sentence contains 'tail'
+                            return True
 
 # Flips coin, prints string showing answer
 def flipCoin():
