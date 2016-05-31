@@ -147,16 +147,17 @@ def flipCoin():
 
 
 # tokenizes string to determine if user is asking to flip a coin
-def searchQ(sentence):
-    sentence = sentence.lower()
+def searchQ(inString):
+    sentence = inString.lower()
     tokens = nltk.word_tokenize(sentence) # Array of sentence
     usedWords = [] # Contains all the words used to make decisions on what response to make
     tags = nltk.pos_tag(tokens) # Array containing all words and POS tag
 
-    flipCheck = checkToFlipCoin(tags)
-    if flipCheck:
+    if checkToFlipCoin(tags):
         usedWords.extend(['flip','coin'])
         flipCoin()
+    else:
+        dbsearch.search(inString)
 
 def start():
     sTime = time.time() # time from program start
@@ -167,8 +168,6 @@ def start():
             getTime(qString[7:])
         elif qString == "end":
             break
-        elif qString == "birth":
-            dbsearch.birthdayOf("Party")
         else:
             searchQ(qString)
 
