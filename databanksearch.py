@@ -1,6 +1,9 @@
-from rdflib import Graph, URIRef # Used to make dbpedia queries
+import nltk # Used for Natural Language Processing
 from nltk.stem import WordNetLemmatizer # Used to lemmatize (find root word)
 
+import rdflib # Import for dbpedia usage
+from rdflib import Graph, URIRef # Used to make dbpedia queries
+from rdflib import RDFS # Used to get label name in dbpedia
     g=rdflib.Graph()
     g.load('http://dbpedia.org/resource/Semantic_Web')
 
