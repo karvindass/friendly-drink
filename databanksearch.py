@@ -7,6 +7,15 @@ from nltk.stem import WordNetLemmatizer # Used to lemmatize (find root word)
     for s,p,o in g:
         print s,p,o
 
+# Get Birthday of resource
+def getBirthday(rdfFile):
+    g = Graph() # Creates graph object
+    g.parse(rdfFile) # Parses through rdfFile
+    generator = g.objects(predicate = RDFS.label) # Creates object of all labels given in all languages
+
+    for stmt in g.subject_objects(URIRef("http://dbpedia.org/ontology/birthDate")): # finds subjects and objects with predicate of birthDate
+        return stmt[1] # Returns first value found
+
 # Find label function
 # Determine's label name based on resource given
 def getLabel(rdfFile):
