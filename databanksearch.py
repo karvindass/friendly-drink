@@ -1,9 +1,12 @@
 import nltk # Used for Natural Language Processing
 from nltk.stem import WordNetLemmatizer # Used to lemmatize (find root word)
+from nltk.tokenize import sent_tokenize, word_tokenize # Used to sentence and word tokenize
 
 import rdflib # Import for dbpedia usage
 from rdflib import Graph, URIRef # Used to make dbpedia queries
 from rdflib import RDFS # Used to get label name in dbpedia
+
+from friendly-drink import findSynonyms # Used to find synonyms
     g=rdflib.Graph()
     g.load('http://dbpedia.org/resource/Semantic_Web')
 
