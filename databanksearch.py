@@ -89,6 +89,36 @@ def whenQuestion(sentenceArray):
             print qDict['subject']
             break
 
+    # search for object
+
+# Object identifier
+# identifies object asked about in sentence
+# input is full sentence
+def idObject(sentenceArray):
+    h = {}
+    POS_tagged_sentence = nltk.pos_tag(sentenceArray)
+
+    for index in range(len(POS_tagged_sentence)):
+        if POS_tagged_sentence[index][1] == 'NNP':
+            h[0] = sentenceArray[index]
+            if POS_tagged_sentence[index+1][1] == 'NNP':
+                h[1] = sentenceArray[index+1]
+                if POS_tagged_sentence[index + 2][1] == 'NNP':
+                    h[2] = sentenceArray[index+2]
+                    break
+                else:
+                    break
+            else:
+                break
+    return h
+    # returns dict with object words
+#     h = new hash table
+# for i in array
+#   if  i + 1 in h && i + 2 in h
+#     return i, i+1, i+2
+#   add i to h
+# return no-match
+
 def searchDemo(qString):
     # Parse string to identify question
 
