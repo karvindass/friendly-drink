@@ -99,20 +99,24 @@ def whenQuestion(sentenceArray):
 # input is full sentence
 def idObject(sentenceArray):
     h = {}
-    POS_tagged_sentence = nltk.pos_tag(sentenceArray)
-
-    for index in range(len(POS_tagged_sentence)):
-        if POS_tagged_sentence[index][1] == 'NNP':
-            h[0] = sentenceArray[index]
-            if POS_tagged_sentence[index+1][1] == 'NNP':
-                h[1] = sentenceArray[index+1]
-                if POS_tagged_sentence[index + 2][1] == 'NNP':
-                    h[2] = sentenceArray[index+2]
-                    break
-                else:
-                    break
-            else:
-                break
+    # Let's assume for ease of use that only the phrase 'When was X Y born?'
+    h[0] = sentenceArray[2]
+    h[1] = sentenceArray[3]
+    # POS_tagged_sentence = nltk.pos_tag(sentenceArray)
+    # print POS_tagged_sentence
+    # for index in range(len(POS_tagged_sentence)-1):
+    #     print index + " " + POS_tagged_sentence[index][1]
+    #     if POS_tagged_sentence[index][1] == 'NNP':
+    #         h[0] = sentenceArray[index]
+    #         if POS_tagged_sentence[index+1][1] == 'NNP':
+    #             h[1] = sentenceArray[index+1]
+    #             if POS_tagged_sentence[index + 2][1] == 'NNP':
+    #                 h[2] = sentenceArray[index+2]
+    #                 break
+            #     else:
+            #         break
+            # else:
+            #     break
     return h
     # returns dict with object words
 #     h = new hash table
