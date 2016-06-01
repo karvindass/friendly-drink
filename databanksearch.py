@@ -63,4 +63,27 @@ def qQuestion(querySentence):
         if word in qWords:
             return qWords.index(word)
 
+# When question
+# from output of above question, will scan for time frame and all
+# Identifies time request it is making
+# Makes request to object identifier
+# Does search
+def whenQuestion(sentenceArray):
+    # search for time frame
+    qDict = {} # Dict containing all useful information used
+    timeFrames = {} # Future Dict for searching for time frames
+
+    for word in sentenceArray:
+        if word == 'born':
+            qDict['timeQuestion'] = 'birth'
+            subject = idObject(sentenceArray)
+            # qDict['subject'] = subject
+            stringToBe = subject[0]
+
+            for word in range(len(subject)):
+                if i != 0:
+                    stringToBe += " " + word
+            qDict['subject'] = stringToBe
+            print qDict['subject']
+            break
 
