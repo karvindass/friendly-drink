@@ -89,3 +89,12 @@ def whenQuestion(sentenceArray):
             print qDict['subject']
             break
 
+def searchDemo(qString):
+    # Parse string to identify question
+
+    # getBirthday(getResource("Kanye West"))
+    print getLabel("http://dbpedia.org/resource/Elvis_Presley")
+
+def search(qString):
+    # searchDemo(qString)
+    parseQuestion(qString)
