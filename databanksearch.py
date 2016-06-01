@@ -43,3 +43,12 @@ def getResource(resName):
 
     return qString
 
+# Parse question, identify what is asked and return results
+# Input is string
+# string is processed by sentence
+def parseQuestion(fullString):
+    sentenceArray = sent_tokenize(fullString)
+
+    for sentence in sentenceArray:
+        qQuestion(sentence)
+
