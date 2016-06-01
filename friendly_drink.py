@@ -7,6 +7,7 @@ from nltk.corpus import wordnet # Wordnet for finding synonyms
 from random import randint # Used to generate random integer
 
 import ASCII_Store
+import databanksearch as dbsearch # file containing db query searches
 
 # Dictionary containing information about user
 userData = {}
@@ -108,9 +109,11 @@ def checkToFlipCoin(POS_tagged_sentence):
     flipSynonyms = findSynonyms("flip") + findSynonyms("toss")
 
     for word in POS_tagged_sentence:
-        if word[1] == 'NN': # Checks if word is a noun
+        # print WordNetLemmatizer().lemmatize(word[0])
+        # print word[1]
+        if word[1] == 'NN' or word[1] == 'NNS': # Checks if word is a noun(or pl.)
             if WordNetLemmatizer().lemmatize(word[0]) == 'coin':
-                # Proceed if 'coin' is in setence
+                # Proceed if 'coin' is in sentence
                 for words in POS_tagged_sentence:
                     if words[1] == 'VB' or words[1] == 'NN' or words[1] == 'IN':
                         # Proceed if a word is base verb, preposition or singular noun
@@ -119,6 +122,14 @@ def checkToFlipCoin(POS_tagged_sentence):
                             if syns == words[0]:
                                 # If word is a synonym, return True
                                 return True
+            elif WordNetLemmatizer().lemmatize(word[0]) == 'head':
+                # Proceed if 'head' is in sentence
+                for word in POS_tagged_sentence:
+                    # iterates through other nouns in sentence
+                    if word[1] == 'NN' or word[1] == 'NNS':
+                        if WordNetLemmatizer().lemmatize(word[0]) == 'tail':
+                            # Proceeds if sentence contains 'tail'
+                            return True
 
 # Flips coin, prints string showing answer
 def flipCoin():
@@ -136,16 +147,17 @@ def flipCoin():
 
 
 # tokenizes string to determine if user is asking to flip a coin
-def searchQ(sentence):
-    sentence = sentence.lower()
+def searchQ(inString):
+    sentence = inString.lower()
     tokens = nltk.word_tokenize(sentence) # Array of sentence
     usedWords = [] # Contains all the words used to make decisions on what response to make
     tags = nltk.pos_tag(tokens) # Array containing all words and POS tag
 
-    flipCheck = checkToFlipCoin(tags)
-    if flipCheck:
+    if checkToFlipCoin(tags):
         usedWords.extend(['flip','coin'])
         flipCoin()
+    else:
+        dbsearch.search(inString)
 
 def start():
     sTime = time.time() # time from program start
