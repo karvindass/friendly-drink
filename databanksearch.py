@@ -51,4 +51,13 @@ def parseQuestion(fullString):
 
     for sentence in sentenceArray:
         qQuestion(sentence)
+# Identifies what kind of question it is asking  (Who/What/Where/When/What/How)
+def qQuestion(querySentence):
+    wordsInSentence = word_tokenize(querySentence)
+    qWords = ['who','what','where','when','what','how']
+
+    for word in wordsInSentence:
+        if word in qWords:
+            return qWords.index(word)
+
 
