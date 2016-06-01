@@ -55,7 +55,10 @@ def parseQuestion(fullString):
     sentenceArray = sent_tokenize(fullString)
 
     for sentence in sentenceArray:
-        qQuestion(sentence)
+        qIndex = qQuestion(sentence)
+        if qIndex == 3: # 'When' question
+            whenQuestion(sentenceArray)
+
 # Identifies what kind of question it is asking  (Who/What/Where/When/What/How)
 def qQuestion(querySentence):
     wordsInSentence = word_tokenize(querySentence)
