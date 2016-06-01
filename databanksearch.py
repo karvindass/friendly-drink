@@ -40,13 +40,11 @@ def getResource(resName):
     return qString
 
 # Parse question, identify what is asked and return results
-# Input is string
-# string is processed by sentence
 def parseQuestion(fullString):
     sentenceArray = sent_tokenize(fullString)
 
     for sentence in sentenceArray:
-        qIndex = qQuestion(sentence)
+        qIndex = qQuestion(sentence) # return index of question type
         if qIndex == 3: # 'When' question
             whenQuestion(word_tokenize(sentence))
 
@@ -57,6 +55,7 @@ def qQuestion(querySentence):
 
     for word in wordsInSentence:
         if word in qWords:
+            # Proceed if question word is found
             return qWords.index(word)
 
 # When question
@@ -67,6 +66,7 @@ def whenQuestion(sentenceArray):
     timeFrames = {} # Future Dict for searching for time frames
     for word in sentenceArray:
         if word == 'born':
+            # Proceed if asking about birthday
             qDict['timeQuestion'] = 'birth'
             subject = idObject(sentenceArray)
             stringToBe = subject[0]
@@ -81,9 +81,6 @@ def whenQuestion(sentenceArray):
     if qDict['timeQuestion'] == 'birth':
         timeValue = getBirthday(RDFlink) # get's the value requested, in birth case - date
         print ("%s was born on %s" % (qDict['subject'].title(), timeValue))
-
-
-    # search for object
 
 # Object identifier
 # identifies object asked about in sentence
