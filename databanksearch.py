@@ -6,7 +6,7 @@ import rdflib # Import for dbpedia usage
 from rdflib import Graph, URIRef # Used to make dbpedia queries
 from rdflib import RDFS # Used to get label name in dbpedia
 
-from friendly_drink import findSynonyms # Used to find synonyms
+# from friendly_drink import findSynonyms # Used to find synonyms
 
 def check(personName):
     g=rdflib.Graph()
@@ -52,15 +52,19 @@ def getResource(resName):
 # Input is string
 # string is processed by sentence
 def parseQuestion(fullString):
+    print "Parsing Question"
     sentenceArray = sent_tokenize(fullString)
+    # qWords = ['who','what','where','when','what','how']
 
     for sentence in sentenceArray:
         qIndex = qQuestion(sentence)
         if qIndex == 3: # 'When' question
-            whenQuestion(sentenceArray)
+            print "about to ask when question"
+            whenQuestion(word_tokenize(sentence))
 
 # Identifies what kind of question it is asking  (Who/What/Where/When/What/How)
 def qQuestion(querySentence):
+    print "q Question"
     wordsInSentence = word_tokenize(querySentence)
     qWords = ['who','what','where','when','what','how']
 
@@ -75,22 +79,32 @@ def qQuestion(querySentence):
 # Does search
 def whenQuestion(sentenceArray):
     # search for time frame
-    qDict = {} # Dict containing all useful information used
+    qDict = {'question': 'when'} # Dict containing all useful information used
     timeFrames = {} # Future Dict for searching for time frames
-
+    print sentenceArray
     for word in sentenceArray:
         if word == 'born':
+            print 'born found'
             qDict['timeQuestion'] = 'birth'
             subject = idObject(sentenceArray)
             # qDict['subject'] = subject
+            print subject
             stringToBe = subject[0]
 
             for word in range(len(subject)):
-                if i != 0:
-                    stringToBe += " " + word
+                if word != 0:
+                    stringToBe += " " + subject[word]
             qDict['subject'] = stringToBe
             print qDict['subject']
             break
+
+
+    print qDict
+    RDFlink = getResource(qDict['subject'])
+    if qDict['timeQuestion'] == 'birth':
+        timeValue = getBirthday(RDFlink) # get's the value requested, in birth case - date
+        print ("%s was born on %s" % (qDict['subject'].title(), timeValue))
+
 
     # search for object
 
