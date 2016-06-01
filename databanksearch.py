@@ -10,10 +10,20 @@ from rdflib import RDFS # Used to get label name in dbpedia
 def getBirthday(rdfFile):
     g = Graph() # Creates graph object
     g.parse(rdfFile) # Parses through rdfFile
-    generator = g.objects(predicate = RDFS.label) # Creates object of all labels given in all languages
 
     for stmt in g.subject_objects(URIRef("http://dbpedia.org/ontology/birthDate")): # finds subjects and objects with predicate of birthDate
         return stmt[1] # Returns first value found
+
+# Get Deathday of resource
+def getDeathday(rdfFile):
+    g = Graph() # Creates graph object
+    g.parse(rdfFile)
+
+    for stmt in g.subject_objects(URIRef("http://dbpedia.org/ontology/deathDate")): #finds subjects and objects with predicate of deathDate
+        return stmt[1]
+
+    # Control flow when no deathDate found
+    return "not found, are you sure they have died?" # Returned if deathDate not found
 
 # Find label function
 # Determine's label name based on resource given
@@ -77,10 +87,26 @@ def whenQuestion(sentenceArray):
             qDict['subject'] = stringToBe
             break
 
+        elif word == 'die':
+            qDict['timeQuestion'] = 'death'
+            subject = idObject(sentenceArray)
+            stringToBe = subject[0]
+
+            for word in range(len(subject)):
+                if word != 0:
+                    stringToBe += " " + subject[word]
+            qDict['subject'] = stringToBe
+            break
+
     RDFlink = getResource(qDict['subject'])
     if qDict['timeQuestion'] == 'birth':
         timeValue = getBirthday(RDFlink) # get's the value requested, in birth case - date
         print ("%s was born on %s" % (qDict['subject'].title(), timeValue))
+    elif qDict['timeQuestion'] == 'death':
+        timeValue = getDeathday(RDFlink)
+        print ("%s died on %s" % (qDict['subject'].title(), timeValue))
+
+
 
 # Object identifier
 # identifies object asked about in sentence
