@@ -6,7 +6,9 @@ import rdflib # Import for dbpedia usage
 from rdflib import Graph, URIRef # Used to make dbpedia queries
 from rdflib import RDFS # Used to get label name in dbpedia
 
-from friendly-drink import findSynonyms # Used to find synonyms
+from friendly_drink import findSynonyms # Used to find synonyms
+
+def check(personName):
     g=rdflib.Graph()
     g.load('http://dbpedia.org/resource/Semantic_Web')
 
