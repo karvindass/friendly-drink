@@ -100,7 +100,7 @@ def whenQuestion(sentenceArray):
             qDict['subject'] = stringToBe
             break
 
-    RDFlink = getResource(qDict['subject'])
+    RDFlink = wiki.suggestRDFPage(qDict['subject'])
     if qDict['timeQuestion'] == 'birth':
         timeValue = getBirthday(RDFlink) # get's the value requested, in birth case - date
         print ("%s was born on %s" % (qDict['subject'].title(), timeValue))
@@ -140,5 +140,4 @@ def searchDemo(qString):
     print getLabel("http://dbpedia.org/resource/Elvis_Presley")
 
 def search(qString):
-    # searchDemo(qString)
     parseQuestion(qString)
