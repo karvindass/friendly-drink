@@ -78,6 +78,7 @@ def whenQuestion(sentenceArray):
             break
 
         elif word == 'die':
+            # Proceed if asking about deathday
             qDict['timeQuestion'] = 'death'
             subject = idObject(sentenceArray)
             stringToBe = subject[0]
@@ -101,8 +102,6 @@ def whenQuestion(sentenceArray):
         # Consider if date not found - maybe person is alive
         dateString = dateRetrieved.strftime("%d %b, %Y")
         print ("%s died on %s" % (qDict['subject'].title(), dateString))
-
-
 
 # Object identifier
 # identifies object asked about in sentence
