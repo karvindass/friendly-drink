@@ -103,17 +103,16 @@ def whenQuestion(sentenceArray):
     RDFlink = wiki.suggestRDFPage(qDict['subject'])
     if qDict['timeQuestion'] == 'birth':
         timeValue = getBirthday(RDFlink) # get's the value requested, in birth case - date
-        # print type(timeValue)
-        # print timeValue
-        exampleDate = timeValue.toPython()
+        dateRetrieved = timeValue.toPython()
         # Consider if date not found - maybe person is dead
-        print type(exampleDate)
-        dateString = exampleDate.strftime("%d %b, %Y")
-        print dateString
-        print ("%s was born on %s" % (qDict['subject'].title(), timeValue))
+        dateString = dateRetrieved.strftime("%d %b, %Y")
+        print ("%s was born on %s" % (qDict['subject'].title(), dateString))
     elif qDict['timeQuestion'] == 'death':
         timeValue = getDeathday(RDFlink)
-        print ("%s died on %s" % (qDict['subject'].title(), timeValue))
+        dateRetrieved = timeValue.toPython()
+        # Consider if date not found - maybe person is alive
+        dateString = dateRetrieved.strftime("%d %b, %Y")
+        print ("%s died on %s" % (qDict['subject'].title(), dateString))
 
 
 
