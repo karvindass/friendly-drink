@@ -135,9 +135,5 @@ def idObject(sentenceArray):
             #     break
     return h
 
-
-def searchDemo(qString):
-    print getLabel("http://dbpedia.org/resource/Elvis_Presley")
-
 def search(qString):
     parseQuestion(qString)
