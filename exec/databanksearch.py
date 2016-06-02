@@ -6,14 +6,26 @@ import rdflib # Import for dbpedia usage
 from rdflib import Graph, URIRef # Used to make dbpedia queries
 from rdflib import RDFS # Used to get label name in dbpedia
 
+import wikiFunctions as wiki # import functions needed for dbpedia queries
+
 # Get Birthday of resource
 def getBirthday(rdfFile):
     g = Graph() # Creates graph object
     g.parse(rdfFile) # Parses through rdfFile
-    generator = g.objects(predicate = RDFS.label) # Creates object of all labels given in all languages
 
     for stmt in g.subject_objects(URIRef("http://dbpedia.org/ontology/birthDate")): # finds subjects and objects with predicate of birthDate
         return stmt[1] # Returns first value found
+
+# Get Deathday of resource
+def getDeathday(rdfFile):
+    g = Graph() # Creates graph object
+    g.parse(rdfFile)
+
+    for stmt in g.subject_objects(URIRef("http://dbpedia.org/ontology/deathDate")): #finds subjects and objects with predicate of deathDate
+        return stmt[1]
+
+    # Control flow when no deathDate found
+    return "not found, are you sure they have died?" # Returned if deathDate not found
 
 # Find label function
 # Determine's label name based on resource given
@@ -26,18 +38,6 @@ def getLabel(rdfFile):
     for stmt in generator: # loops through all labels in all languages
         if stmt.language == "en":
             return stmt # Returns the English name for the resource
-
-# Gen Resource string
-# Should find the link to the object of the interested thing
-# e.g. Kanye
-def getResource(resName):
-    resName = resName.title()
-    tokens = nltk.word_tokenize(resName)
-    qString = "http://dbpedia.org/resource/" + tokens[0]
-    for i in range(1, len(tokens)):
-        qString += "_" + tokens[i]
-
-    return qString
 
 # Parse question, identify what is asked and return results
 def parseQuestion(fullString):
@@ -77,10 +77,31 @@ def whenQuestion(sentenceArray):
             qDict['subject'] = stringToBe
             break
 
-    RDFlink = getResource(qDict['subject'])
+        elif word == 'die':
+            # Proceed if asking about deathday
+            qDict['timeQuestion'] = 'death'
+            subject = idObject(sentenceArray)
+            stringToBe = subject[0]
+
+            for word in range(len(subject)):
+                if word != 0:
+                    stringToBe += " " + subject[word]
+            qDict['subject'] = stringToBe
+            break
+
+    RDFlink = wiki.suggestRDFPage(qDict['subject'])
     if qDict['timeQuestion'] == 'birth':
         timeValue = getBirthday(RDFlink) # get's the value requested, in birth case - date
-        print ("%s was born on %s" % (qDict['subject'].title(), timeValue))
+        dateRetrieved = timeValue.toPython()
+        # Consider if date not found - maybe person is dead
+        dateString = dateRetrieved.strftime("%d %b, %Y")
+        print ("%s was born on %s" % (qDict['subject'].title(), dateString))
+    elif qDict['timeQuestion'] == 'death':
+        timeValue = getDeathday(RDFlink)
+        dateRetrieved = timeValue.toPython()
+        # Consider if date not found - maybe person is alive
+        dateString = dateRetrieved.strftime("%d %b, %Y")
+        print ("%s died on %s" % (qDict['subject'].title(), dateString))
 
 # Object identifier
 # identifies object asked about in sentence
@@ -107,10 +128,5 @@ def idObject(sentenceArray):
             #     break
     return h
 
-
-def searchDemo(qString):
-    print getLabel("http://dbpedia.org/resource/Elvis_Presley")
-
 def search(qString):
-    # searchDemo(qString)
     parseQuestion(qString)
