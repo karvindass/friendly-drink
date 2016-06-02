@@ -6,7 +6,7 @@ import rdflib # Import for dbpedia usage
 from rdflib import Graph, URIRef # Used to make dbpedia queries
 from rdflib import RDFS # Used to get label name in dbpedia
 
-import Datasets.wikipedia # import functions needed for dbpedia queries
+import wikiFunctions as wiki # import functions needed for dbpedia queries
 
 # Get Birthday of resource
 def getBirthday(rdfFile):
