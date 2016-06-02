@@ -39,18 +39,6 @@ def getLabel(rdfFile):
         if stmt.language == "en":
             return stmt # Returns the English name for the resource
 
-# Gen Resource string
-# Should find the link to the object of the interested thing
-# e.g. Kanye
-def getResource(resName):
-    resName = resName.title()
-    tokens = nltk.word_tokenize(resName)
-    qString = "http://dbpedia.org/resource/" + tokens[0]
-    for i in range(1, len(tokens)):
-        qString += "_" + tokens[i]
-
-    return qString
-
 # Parse question, identify what is asked and return results
 def parseQuestion(fullString):
     sentenceArray = sent_tokenize(fullString)
