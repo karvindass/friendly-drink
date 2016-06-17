@@ -3,6 +3,9 @@ import csv # Used for csv handling
 import nltk # Used for natural language recognition
 from nltk.stem import WordNetLemmatizer # Used to lemmatize (find root word)
 from nltk.corpus import wordnet # Wordnet for finding synonyms
+from nltk.tokenize import sent_tokenize, word_tokenize
+
+from location import lctnwthrgt
 
 from random import randint # Used to generate random integer
 
@@ -12,14 +15,18 @@ import databanksearch as dbsearch # file containing db query searches
 # Dictionary containing information about user
 userData = {}
 
+# Temporary storage for informaton
+tempstore= {}
+sombin= 2;
+
 # Used to reveal text with the time delay
 def reveal(text):
-    time.sleep(1)
+    time.sleep(0)
     print "FD: " + text
 
 # Used to reveal text without the time delay
 def revealInstant(text):
-    time.sleep(1)
+    time.sleep(0)
     print "FD: " + text
 
 # Used to reveal text without Time Delay and "FD: "
@@ -38,6 +45,9 @@ def clean(string):
 def intro():
     reveal("Hey there, my name is Friendly-Drink, but I go by FD.")
     reveal("But I go by FD")
+    #Gets weather data and location data
+    (userData['temperature'], userData['wndspd'], userData['wthrid'],
+    userData['city'])=lctnwthrgt()
     getName()
 
 # Gets name of user
@@ -45,6 +55,71 @@ def getName():
     reveal("What's your name?")
     userData['userName'] = raw_input('> ').title() # input stored in user data dictionary
     reveal("Hey there %s, it's nice to meet you" % userData['userName'])
+    getSchool()
+#School information
+def getSchool():
+    reveal("So which college do you go to?")
+    userData['College']= raw_input('> ')
+    reveal("Holy shit! You go to %s, that's a really good place." %userData['College'])
+    howdy()
+#Getting State of Mind
+def howdy():
+    reveal("How are you?")
+    tempstore['sttofmnd']= raw_input('> ')
+    stateofmind()
+
+#Finding State of Mind
+def stateofmind():
+    usedWords = [] # Contains all the words used to make decisions on what response to make
+    wrdarr = word_tokenize(tempstore['sttofmnd']) # Array of sentence
+    tokens= nltk.pos_tag(wrdarr)
+    fnchk(tokens)
+
+    if sombin==1:
+        reveal ("That is Amazing.")
+    elif sombin==2:
+        reveal ("I hope you feel better")
+
+
+def fnchk(sentence):
+    fnSynonyms= findSynonyms("fine")+ findSynonyms("good")
+    ntSynonyms= findSynonyms("not")
+    sdSynonyms= findSynonyms("sad")+findSynonyms("sick")+findSynonyms("bad")
+    for i in range (0, (len(sentence)-1)):
+        ki=0;
+        if sentence[i][1]=='JJ':
+            for syns in fnSynonyms:
+                if syns.lower() == sentence[i][0].lower():
+                    ki=ki+1
+                    if i==0:
+                        sombin=1
+                    else:
+                        if sentence[i-1][0].lower()=="not":
+                            sombin=0
+                        else:
+                            for ntsyns in ntSynonyms:
+                                if sentence[i-1][0].lower()==ntsyns.lower():
+                                    sombin=0
+                                else:
+                                    sombin=1
+
+            if ki!=0:
+                for syns in sdSynonyms:
+                    if syns.lower() == sentence[i][0].lower():
+                        if i==0:
+                            sombin=0
+                        else:
+                            if sentence[i-1][0].lower()=="not":
+                                sombin=1
+                            else:
+                                for ntsyns in ntSynonyms:
+                                    if sentence[i-1][0].lower()==ntsyns.lower():
+                                        sombin=1
+                                    else:
+                                        sombin=0
+                                    return
+
+
 
 # function to print time of a location from user input using Dataset
 def getTime(locale):
@@ -130,6 +205,10 @@ def checkToFlipCoin(POS_tagged_sentence):
                         if WordNetLemmatizer().lemmatize(word[0]) == 'tail':
                             # Proceeds if sentence contains 'tail'
                             return True
+<<<<<<< HEAD:exec/friendly_drink.py
+=======
+
+>>>>>>> My-Branch:exec/friendly_drink.py
 
 # Flips coin, prints string showing answer
 def flipCoin():
@@ -145,6 +224,13 @@ def flipCoin():
         revealFree(ASCII_Store.artFiles['diamond']) # Print ASCII
         revealFree("Tails!")
 
+# a fucntion to check if user is asking for weather {VERY INCOMPLETE}
+def weathercheck(sentence):
+    return True
+
+def weatherout():
+    weather='The temperature in %s is %5.2f with wind speed of %i' %(userData['city'], userData['temperature'], userData['wndspd'])
+    reveal(weather)
 
 # tokenizes string to determine if user is asking to flip a coin
 def searchQ(inString):
@@ -156,6 +242,11 @@ def searchQ(inString):
     if checkToFlipCoin(tags):
         usedWords.extend(['flip','coin'])
         flipCoin()
+<<<<<<< HEAD:exec/friendly_drink.py
+=======
+    elif weathercheck(tags):
+        weatherout()
+>>>>>>> My-Branch:exec/friendly_drink.py
     else:
         dbsearch.search(inString)
 

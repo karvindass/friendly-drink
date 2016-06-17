@@ -33,6 +33,13 @@ We all want a friendly drink
 * Looks up time in city
 
 `flip` [or synonyms] + `coin` (order insignificant)
+<<<<<<< HEAD
+=======
+<<<<<<< HEAD
+* Flips a coin for the user, returning the result and a corresponding ASCII image
+
+=======
+>>>>>>> My-Branch
 * Alternately, `heads or tails` or `tails or heads` can be used
 * Flips a coin for the user, returning the result and a corresponding ASCII image
 
@@ -40,5 +47,9 @@ We all want a friendly drink
 * Searches wikipedia for birthdate of queried individual
 
 
+<<<<<<< HEAD
+=======
+>>>>>>> master
+>>>>>>> My-Branch
 # References
 [Parts of Speech (POS) Tags](https://www.ling.upenn.edu/courses/Fall_2003/ling001/penn_treebank_pos.html) - Used for NLTK
