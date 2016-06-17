@@ -5,16 +5,19 @@ from nltk.stem import WordNetLemmatizer # Used to lemmatize (find root word)
 from nltk.corpus import wordnet # Wordnet for finding synonyms
 from nltk.tokenize import sent_tokenize, word_tokenize
 
+from location import lctnwthrgt
+
 from random import randint # Used to generate random integer
 
 import ASCII_Store
+import databanksearch as dbsearch # file containing db query searches
 
 # Dictionary containing information about user
 userData = {}
 
 # Temporary storage for informaton
 tempstore= {}
-sombin= 1;
+sombin= 2;
 
 # Used to reveal text with the time delay
 def reveal(text):
@@ -42,12 +45,15 @@ def clean(string):
 def intro():
     reveal("Hey there, my name is Friendly-Drink, but I go by FD.")
     reveal("But I go by FD")
+    #Gets weather data and location data
+    (userData['temperature'], userData['wndspd'], userData['wthrid'],
+    userData['city'])=lctnwthrgt()
     getName()
 
 # Gets name of user
 def getName():
     reveal("What's your name?")
-    userData['userName'] = raw_input('> ') # input stored in user data dictionary
+    userData['userName'] = raw_input('> ').title() # input stored in user data dictionary
     reveal("Hey there %s, it's nice to meet you" % userData['userName'])
     getSchool()
 #School information
@@ -65,11 +71,13 @@ def howdy():
 #Finding State of Mind
 def stateofmind():
     usedWords = [] # Contains all the words used to make decisions on what response to make
-    tokens = word_tokenize(tempstore['sttofmnd']) # Array of sentence
+    wrdarr = word_tokenize(tempstore['sttofmnd']) # Array of sentence
+    tokens= nltk.pos_tag(wrdarr)
     fnchk(tokens)
+
     if sombin==1:
         reveal ("That is Amazing.")
-    else:
+    elif sombin==2:
         reveal ("I hope you feel better")
 
 
@@ -79,35 +87,37 @@ def fnchk(sentence):
     sdSynonyms= findSynonyms("sad")+findSynonyms("sick")+findSynonyms("bad")
     for i in range (0, (len(sentence)-1)):
         ki=0;
-        for syns in fnSynonyms:
-            if syns.lower() == sentence[i].lower():
-                ki=ki+1
-                if i==0:
-                    sombin=1
-                else:
-                    if sentence[i-1].lower()=="not":
-                        sombin=0
-                    else:
-                        for ntsyns in ntSynonyms:
-                            if sentence[i-1].lower()==ntsyns.lower():
-                                sombin=0
-                            else:
-                                sombin=1
-        if ki!=0:
-            for syns in sdSynonyms:
-                if syns.lower() == sentence[i].lower():
+        if sentence[i][1]=='JJ':
+            for syns in fnSynonyms:
+                if syns.lower() == sentence[i][0].lower():
+                    ki=ki+1
                     if i==0:
-                        sombin=0
+                        sombin=1
                     else:
-                        if sentence[i-1].lower()=="not":
-                            sombin=1
+                        if sentence[i-1][0].lower()=="not":
+                            sombin=0
                         else:
                             for ntsyns in ntSynonyms:
-                                if sentence[i-1].lower()==ntsyns.lower():
-                                    sombin=1
-                                else:
+                                if sentence[i-1][0].lower()==ntsyns.lower():
                                     sombin=0
-                                return
+                                else:
+                                    sombin=1
+
+            if ki!=0:
+                for syns in sdSynonyms:
+                    if syns.lower() == sentence[i][0].lower():
+                        if i==0:
+                            sombin=0
+                        else:
+                            if sentence[i-1][0].lower()=="not":
+                                sombin=1
+                            else:
+                                for ntsyns in ntSynonyms:
+                                    if sentence[i-1][0].lower()==ntsyns.lower():
+                                        sombin=1
+                                    else:
+                                        sombin=0
+                                    return
 
 
 
@@ -174,9 +184,11 @@ def checkToFlipCoin(POS_tagged_sentence):
     flipSynonyms = findSynonyms("flip") + findSynonyms("toss")
 
     for word in POS_tagged_sentence:
-        if word[1] == 'NN': # Checks if word is a noun
+        # print WordNetLemmatizer().lemmatize(word[0])
+        # print word[1]
+        if word[1] == 'NN' or word[1] == 'NNS': # Checks if word is a noun(or pl.)
             if WordNetLemmatizer().lemmatize(word[0]) == 'coin':
-                # Proceed if 'coin' is in setence
+                # Proceed if 'coin' is in sentence
                 for words in POS_tagged_sentence:
                     if words[1] == 'VB' or words[1] == 'NN' or words[1] == 'IN':
                         # Proceed if a word is base verb, preposition or singular noun
@@ -185,6 +197,15 @@ def checkToFlipCoin(POS_tagged_sentence):
                             if syns == words[0]:
                                 # If word is a synonym, return True
                                 return True
+            elif WordNetLemmatizer().lemmatize(word[0]) == 'head':
+                # Proceed if 'head' is in sentence
+                for word in POS_tagged_sentence:
+                    # iterates through other nouns in sentence
+                    if word[1] == 'NN' or word[1] == 'NNS':
+                        if WordNetLemmatizer().lemmatize(word[0]) == 'tail':
+                            # Proceeds if sentence contains 'tail'
+                            return True
+
 
 # Flips coin, prints string showing answer
 def flipCoin():
@@ -200,17 +221,28 @@ def flipCoin():
         revealFree(ASCII_Store.artFiles['diamond']) # Print ASCII
         revealFree("Tails!")
 
+# a fucntion to check if user is asking for weather {VERY INCOMPLETE}
+def weathercheck(sentence):
+    return True
+
+def weatherout():
+    weather='The temperature in %s is %5.2f with wind speed of %i' %(userData['city'], userData['temperature'], userData['wndspd'])
+    reveal(weather)
 
 # tokenizes string to determine if user is asking to flip a coin
-def searchQ(sentence):
+def searchQ(inString):
+    sentence = inString.lower()
     tokens = nltk.word_tokenize(sentence) # Array of sentence
     usedWords = [] # Contains all the words used to make decisions on what response to make
     tags = nltk.pos_tag(tokens) # Array containing all words and POS tag
 
-    flipCheck = checkToFlipCoin(tags)
-    if flipCheck:
+    if checkToFlipCoin(tags):
         usedWords.extend(['flip','coin'])
         flipCoin()
+    elif weathercheck(tags):
+        weatherout()
+    else:
+        dbsearch.search(inString)
 
 def start():
     sTime = time.time() # time from program start
