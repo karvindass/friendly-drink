@@ -5,8 +5,9 @@ from nltk.stem import WordNetLemmatizer # Used to lemmatize (find root word)
 from nltk.corpus import wordnet # Wordnet for finding synonyms
 from nltk.tokenize import sent_tokenize, word_tokenize
 
+from findsynonyms import findSynonyms
 from location import lctnwthrgt
-
+from stateofmind import fnchk
 from random import randint # Used to generate random integer
 
 import ASCII_Store
@@ -73,51 +74,14 @@ def stateofmind():
     usedWords = [] # Contains all the words used to make decisions on what response to make
     wrdarr = word_tokenize(tempstore['sttofmnd']) # Array of sentence
     tokens= nltk.pos_tag(wrdarr)
-    fnchk(tokens)
 
-    if sombin==1:
+
+    if fnchk(tokens):
         reveal ("That is Amazing.")
-    elif sombin==2:
+        sombin=1
+    else:
         reveal ("I hope you feel better")
-
-
-def fnchk(sentence):
-    fnSynonyms= findSynonyms("fine")+ findSynonyms("good")
-    ntSynonyms= findSynonyms("not")
-    sdSynonyms= findSynonyms("sad")+findSynonyms("sick")+findSynonyms("bad")
-    for i in range (0, (len(sentence)-1)):
-        ki=0;
-        if sentence[i][1]=='JJ':
-            for syns in fnSynonyms:
-                if syns.lower() == sentence[i][0].lower():
-                    ki=ki+1
-                    if i==0:
-                        sombin=1
-                    else:
-                        if sentence[i-1][0].lower()=="not":
-                            sombin=0
-                        else:
-                            for ntsyns in ntSynonyms:
-                                if sentence[i-1][0].lower()==ntsyns.lower():
-                                    sombin=0
-                                else:
-                                    sombin=1
-
-            if ki!=0:
-                for syns in sdSynonyms:
-                    if syns.lower() == sentence[i][0].lower():
-                        if i==0:
-                            sombin=0
-                        else:
-                            if sentence[i-1][0].lower()=="not":
-                                sombin=1
-                            else:
-                                for ntsyns in ntSynonyms:
-                                    if sentence[i-1][0].lower()==ntsyns.lower():
-                                        sombin=1
-                                    else:
-                                        sombin=0
-                                    return
+        sombin=0
 
 
 
@@ -167,16 +131,6 @@ def getTime(locale):
     reveal("The time in %s, %s is:" % (searchParam.title(), countryName))
     reveal(time.strftime("%H:%M:%S, %a, %d %b %Y ", time.gmtime(checkTime)))
 
-# Finds synonyms of word - returns array of synonyms
-def findSynonyms(entryWord):
-    # Array which will contain synonyms
-    synonyms = []
-    for syn in wordnet.synsets(entryWord):
-        # Iterates through synonyms
-        for l in syn.lemmas():
-            # Iterates through possible lemmas, appends to synonyms array
-            synonyms.append(l.name())
-    return synonyms
 
 # Checks if asking to flip a coin
 def checkToFlipCoin(POS_tagged_sentence):
@@ -205,10 +159,6 @@ def checkToFlipCoin(POS_tagged_sentence):
                         if WordNetLemmatizer().lemmatize(word[0]) == 'tail':
                             # Proceeds if sentence contains 'tail'
                             return True
-<<<<<<< HEAD:exec/friendly_drink.py
-=======
-
->>>>>>> My-Branch:exec/friendly_drink.py
 
 # Flips coin, prints string showing answer
 def flipCoin():
@@ -229,7 +179,7 @@ def weathercheck(sentence):
     return True
 
 def weatherout():
-    weather='The temperature in %s is %5.2f with wind speed of %i' %(userData['city'], userData['temperature'], userData['wndspd'])
+    weather='The temperature in %s is %5.2f with wind speed of %4.1f' %(userData['city'], userData['temperature'], userData['wndspd'])
     reveal(weather)
 
 # tokenizes string to determine if user is asking to flip a coin
@@ -242,11 +192,8 @@ def searchQ(inString):
     if checkToFlipCoin(tags):
         usedWords.extend(['flip','coin'])
         flipCoin()
-<<<<<<< HEAD:exec/friendly_drink.py
-=======
     elif weathercheck(tags):
         weatherout()
->>>>>>> My-Branch:exec/friendly_drink.py
     else:
         dbsearch.search(inString)
 
