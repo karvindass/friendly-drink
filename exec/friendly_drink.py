@@ -205,7 +205,10 @@ def checkToFlipCoin(POS_tagged_sentence):
                         if WordNetLemmatizer().lemmatize(word[0]) == 'tail':
                             # Proceeds if sentence contains 'tail'
                             return True
+<<<<<<< HEAD:exec/friendly_drink.py
+=======
 
+>>>>>>> My-Branch:exec/friendly_drink.py
 
 # Flips coin, prints string showing answer
 def flipCoin():
@@ -239,8 +242,11 @@ def searchQ(inString):
     if checkToFlipCoin(tags):
         usedWords.extend(['flip','coin'])
         flipCoin()
+<<<<<<< HEAD:exec/friendly_drink.py
+=======
     elif weathercheck(tags):
         weatherout()
+>>>>>>> My-Branch:exec/friendly_drink.py
     else:
         dbsearch.search(inString)
 
