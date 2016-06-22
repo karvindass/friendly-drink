@@ -33,16 +33,12 @@ def fnchk(sentence):
                     if i==0:
                         return True
                     else:
-                        if sentence[i-1][0].lower()=="not":
-                            return False
-                        else:
-                            for ntsyns in ntSynonyms:
-                                if sentence[i-1][0].lower()==ntsyns:
-                                    return False
-                                else:
-                                    return True
-                                break
-
+                        for k in range (0, (i)):
+                            if (sentence[k][0].lower()=="not" or sentence[k][0].lower()=="non"):
+                                return False
+                            else:
+                                continue
+                        return True
                     break
             if ki==0:
                 for syns in sdSynonyms:
@@ -50,14 +46,10 @@ def fnchk(sentence):
                         if i==0:
                             return False
                         else:
-                            if sentence[i-1][0].lower()=="not":
-                                return True
-                            else:
-                                for ntsyns in ntSynonyms:
-                                    if sentence[i-1][0].lower()==ntsyns:
-                                        return True
-                                    else:
-                                        return False
-                                    break
-
-                    break
+                            for k in range (0, (i)):
+                                if (sentence[k][0].lower()=="not" or sentence[k][0].lower()=="non"):
+                                    return True
+                                else:
+                                    continue
+                            return False
+                        break
