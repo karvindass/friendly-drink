@@ -192,7 +192,6 @@ def searchQ(inString):
     if checkToFlipCoin(tags):
         usedWords.extend(['flip','coin'])
         flipCoin()
-
     elif weathercheck(tags):
         weatherout()
     else:
