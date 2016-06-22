@@ -21,6 +21,7 @@ def lctnwthrgt ():
     return (temperature, wnd['speed'], sky['id'], str(location['city']) )
 
 
+
 #weatherid:
 #20X	thunder storm stuff
 #30X	drizzle
